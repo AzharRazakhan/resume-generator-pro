@@ -88,12 +88,20 @@ components, and performance optimization with clean, maintainable architecture.`
       }
     ],
 
-    education: {
+    education: [{
       course: "Bachelor of Engineering (Computer Science)",
       university: "RGPV University",
       year: "2019",
       cgpa: "6.3"
     },
+    {
+      course: "Bachelor of Engineering (Computer Science)",
+      university: "RGPV University",
+      year: "2019",
+      cgpa: "6.3"
+    }
+    ],
+
 
     skills: {
       frontend: "Angular(v2+), React.js, HTML5, CSS3, JavaScript, TypeScript, Bootstrap ,Rxjs,Ngrx,RESTful Services, ",
@@ -154,12 +162,11 @@ components, and performance optimization with clean, maintainable architecture.`
 
       experience: this.fb.array<FormGroup<Experience>>([]),
       projects: this.fb.array<FormGroup<Project>>([]),
-      education: this.fb.array([]),
+      education: this.fb.array<FormGroup<any>>([]),
       certificates: this.fb.array([]),
       skills: this.fb.array<FormGroup<any>>([]),
     });
 
-    this.loadEducationFromData();
     this.addCertificate();
     this.loadSkills();
 
@@ -248,14 +255,6 @@ components, and performance optimization with clean, maintainable architecture.`
     return exp.get('points') as FormArray<FormControl<string>>;
   }
 
-  loadEducationFromData() {
-    if (this.resumeData.education) {
-      this.addEducation({
-        ...this.resumeData.education,
-        score: this.resumeData.education.cgpa
-      });
-    }
-  }
 
 
 
@@ -430,6 +429,18 @@ components, and performance optimization with clean, maintainable architecture.`
         year: this.fb.control(t.year, { nonNullable: true })
       });
       this.certificates.push(group);
+    })
+
+
+    this.resumeData.education.forEach(s => {
+      const group = this.fb.group<any>({
+        course: this.fb.control(s.course, { nonNullable: true }),
+        university: this.fb.control(s.university ?? '', { nonNullable: true }),
+        year: this.fb.control(s.year, { nonNullable: true }),
+        score: this.fb.control(s.cgpa, { nonNullable: true }),
+
+      });
+      this.education.push(group);
     })
   }
 }

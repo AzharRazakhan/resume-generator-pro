@@ -176,7 +176,7 @@
                         <b>{{ exp.value.role }}</b><br>
                         <span class="fs13">
                             {{ exp.value.company }}
-                            ({{ exp.value.duration }})
+                            {{ exp.value.duration }}
                         </span>
                         <ul class="points-list">
                             <li *ngFor="let p of getPoints(exp).controls">{{ p.value }}</li>
@@ -186,7 +186,7 @@
                     <h2 class="mb-10">EDUCATION</h2>
                     <div *ngFor="let edu of resumeForm.value.education">
                         <b>{{ edu.course }}</b><br>
-                        <span>
+                        <span class="fs13">
                             {{ edu.university }} – {{ edu.year }} | {{edu.score ? ( edu.score) : '' }}
                         </span>
                     </div>
