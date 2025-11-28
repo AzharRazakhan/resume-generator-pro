@@ -1,0 +1,25 @@
+.resume-container {
+    width: 800px;       /* Already set */
+    margin: auto;
+    background: white;
+    padding: 20px;
+    margin: 2px;
+    padding: 0px;
+}
+
+#resumeContent {
+    width: 794px;      /* A4 pixel width */
+    margin: auto;
+    background: white;
+}
+
+/* optional button styling */
+.download-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #1f2e40;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

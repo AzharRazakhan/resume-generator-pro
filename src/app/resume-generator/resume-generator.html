@@ -1,0 +1,83 @@
+<div class="resume-container">
+    <div class="resume-form-panel">
+
+        <h2>Resume PDF Generator</h2>
+
+        <div class="section">
+            <h3>Basic Details</h3>
+            <div class="grid-2">
+                <input placeholder="Name" [(ngModel)]="resumeData.name" (ngModelChange)="onUpdatePreview()" />
+                <input placeholder="Designation" [(ngModel)]="resumeData.designation"
+                    (ngModelChange)="onUpdatePreview()" />
+
+                <input placeholder="Email" [(ngModel)]="resumeData.email" (ngModelChange)="onUpdatePreview()" />
+                <input placeholder="Contact Number" [(ngModel)]="resumeData.contact"
+                    (ngModelChange)="onUpdatePreview()" />
+
+                <input placeholder="Address" [(ngModel)]="resumeData.address" (ngModelChange)="onUpdatePreview()" />
+                <input placeholder="LinkedIn Profile" [(ngModel)]="resumeData.linkedin"
+                    (ngModelChange)="onUpdatePreview()" />
+            </div>
+
+            <textarea placeholder="Professional Summary" [(ngModel)]="resumeData.summary"
+                (ngModelChange)="onUpdatePreview()"></textarea>
+
+            <textarea [(ngModel)]="skillsString" placeholder="Skills (comma separated)"
+                (ngModelChange)="updateSkills()">
+            </textarea>
+        </div>
+
+        <div class="section">
+            <h3>Work Experience</h3>
+
+            <div *ngFor="let exp of resumeData.workExperience; let i = index" class="dynamic-card">
+                <input placeholder="Role" [(ngModel)]="exp.role" (ngModelChange)="onUpdatePreview()" />
+                <textarea placeholder="Points (comma separated)" [(ngModel)]="exp.pointsString"
+                    (ngModelChange)="updateExperiencePoints(exp)">
+            </textarea>
+
+                <button class="remove-btn" (click)="removeExperience(i); onUpdatePreview()">Remove</button>
+            </div>
+            <button class="add-btn" (click)="addExperience(); onUpdatePreview()">+ Add Experience</button>
+        </div>
+
+        <div class="section">
+            <h3>Projects</h3>
+
+            <div *ngFor="let p of resumeData.projects; let i = index" class="dynamic-card">
+                <input placeholder="Project Title" [(ngModel)]="p.title" (ngModelChange)="onUpdatePreview()" />
+                <textarea placeholder="Points (comma separated)" [(ngModel)]="p.pointsString"
+                    (ngModelChange)="updateProjectPoints(p)">
+            </textarea>
+
+                <button class="remove-btn" (click)="removeProject(i); onUpdatePreview()">Remove</button>
+            </div>
+            <button class="add-btn" (click)="addProject(); onUpdatePreview()">+ Add Project</button>
+        </div>
+
+        <div class="section">
+            <h3>Education</h3>
+
+            <div *ngFor="let edu of resumeData.education; let i = index" class="dynamic-card">
+
+                <input placeholder="Degree" [(ngModel)]="edu.degree" (ngModelChange)="onUpdatePreview()" />
+                <input placeholder="Institute" [(ngModel)]="edu.institute" (ngModelChange)="onUpdatePreview()" />
+                <input placeholder="Passing Year" [(ngModel)]="edu.year" (ngModelChange)="onUpdatePreview()" />
+
+                <button class="remove-btn" (click)="removeEducation(i); onUpdatePreview()">Remove</button>
+            </div>
+
+            <button class="add-btn" (click)="addEducation(); onUpdatePreview()">+ Add Education</button>
+        </div>
+
+        <div class="submit-section">
+            <button class="preview-btn" (click)="onPreviewClick()">Preview PDF</button>
+            <button class="download-btn" (click)="generatePDF()">Download My Resume PDF</button>
+        </div>
+    </div>
+
+
+    <div class="resume-preview-panel">
+        <iframe [src]="pdfSrc | safeUrl"></iframe>
+    </div>
+</div>

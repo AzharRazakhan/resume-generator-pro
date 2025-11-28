@@ -1,0 +1,204 @@
+<div class="resume-container" id="resumeContent" style="width: 863px;">
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{resumeData.name}} Resume</title>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: #f1f1f1;
+                padding: 5px;
+            }
+
+            .resume-container {
+                width: 800px;
+                background: #ffffff;
+                margin: auto;
+                padding: 40px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            /* Header */
+            h1 {
+                font-size: 32px;
+                margin: 0;
+                font-weight: bold;
+            }
+
+            .sub-title {
+                font-size: 16px;
+                margin-top: 5px;
+                color: #444;
+                font-weight: bold;
+            }
+
+            /* Contact Bar */
+            .info-bar {
+                background: #1f2e40;
+                color: white;
+                padding: 10px;
+                margin: 20px 0;
+                font-size: 13px;
+                display: flex;
+                justify-content: space-between;
+                border-radius: 3px;
+            }
+
+            .info-item {
+                display: flex;
+                gap: 5px;
+            }
+
+            /* Layout */
+            .row {
+                display: flex;
+                gap: 20px;
+            }
+
+            .left {
+                width: 55%;
+            }
+
+            .right {
+                width: 45%;
+            }
+
+            h2 {
+                font-size: 16px;
+                margin-bottom: 8px;
+                padding-bottom: 3px;
+                font-weight: bold;
+                border-bottom: 2px solid #ddd;
+            }
+
+            /* Experience Bullets */
+            ul li {
+                margin-bottom: 6px;
+                font-size: 13px;
+                line-height: 1.4;
+            }
+
+            /* Right side cards */
+            .card {
+                background: #1f2e40;
+                color: white;
+                padding: 10px;
+                border-radius: 6px;
+                margin-bottom: 12px;
+                font-size: 13px;
+            }
+
+            .card-title {
+                font-weight: bold;
+                color: #fff;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="resume-container">
+
+            <!-- Header -->
+            <h1>{{ resumeData.name }}</h1>
+            <div class="sub-title">{{ resumeData.title }}</div>
+
+            <p style="font-size:13px; margin-top:10px;">
+                {{ resumeData.summary }}
+            </p>
+            <!-- Contact Bar -->
+            <div class="info-bar">
+                <div class="info-item">{{ resumeData.contact.email }}</div>
+                <div class="info-item">{{ resumeData.contact.phone }}</div>
+                <div class="info-item">{{ resumeData.contact.location }}</div>
+                <div class="info-item">{{ resumeData.contact.linkedin }}</div>
+            </div>
+
+
+            <!-- MAIN CONTENT -->
+            <div class="row">
+
+                <!-- LEFT COLUMN -->
+                <div class="left">
+
+                    <h2>WORK EXPERIENCE</h2>
+
+                    <div *ngFor="let exp of resumeData.experience">
+                        <b>{{ exp.role }}</b><br>
+                        {{ exp.company }} ({{ exp.duration }})
+
+                        <ul>
+                            <li *ngFor="let point of exp.points">{{ point }}</li>
+                        </ul>
+                    </div>
+
+                    <h2>EDUCATION</h2>
+                    <p style="font-size:13px;">
+                        <b>{{ resumeData.education.course }}</b><br>
+                        {{ resumeData.education.university }} – {{ resumeData.education.year }} |
+                        CGPA: {{ resumeData.education.cgpa }}
+                    </p>
+
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="right">
+
+                    <!-- Skills Cards -->
+                    <h2>SKILLS</h2>
+
+                    <div class="card">
+                        <div class="card-title">Frontend</div>
+                        {{ resumeData.skills.frontend }}
+                    </div>
+                    <div class="card">
+                        <div class="card-title">Backend</div>
+                        {{ resumeData.skills.backend }}
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title">Database</div>
+                        {{ resumeData.skills.database }}
+                    </div>
+
+
+                    <div class="card">
+                        <div class="card-title">Tools & Version Control</div>
+                        {{ resumeData.skills.tools }}
+                    </div>
+
+
+                    <!-- Projects -->
+                    <h2>PROJECTS</h2>
+
+                    <div *ngFor="let project of resumeData.projects">
+                        <b>{{ project.name }}</b><br>
+
+                        <a *ngIf="project.link" [href]="project.link" style="font-size:12px;">
+                            {{ project.link }}
+                        </a>
+
+                        <p style="font-size:13px; margin-top:5px;">
+                            {{ project.desc }}
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>
+
+    </html>
+
+</div>
+
+<button (click)="generatePDF()" class="download-btn">
+    Download PDF
+</button>

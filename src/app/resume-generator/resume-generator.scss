@@ -1,0 +1,117 @@
+/* Update .resume-container for SIDE-BY-SIDE layout */
+.resume-container {
+    width: 95%; /* Increased width for two columns */
+    max-width: 1400px; /* Increased max-width */
+    margin: auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+
+    /* --- SIDE-BY-SIDE FLEX STYLES --- */
+    display: flex;
+    gap: 20px;
+    min-height: 85vh; /* Ensure container has enough height for the iframe */
+}
+
+/* New class for the form panel (left side) */
+.resume-form-panel {
+    flex: 1; /* Takes up half the width */
+    overflow-y: auto; /* Allows scrolling within the form */
+    padding-right: 10px; /* Small gap from the edge */
+}
+
+/* New class for the PDF preview panel (right side) */
+.resume-preview-panel {
+    flex: 1; /* Takes up the other half */
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    overflow: hidden; /* Ensures the iframe fits perfectly */
+}
+
+/* Style for the iframe inside the preview panel */
+.resume-preview-panel iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- Existing Styles below, preserved --- */
+
+.section {
+    margin-bottom: 25px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+h2, h3 {
+    margin-bottom: 10px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 80px;
+}
+
+.dynamic-card {
+    background: white;
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.add-btn, .remove-btn, .download-btn, .preview-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 8px;
+    font-size: 14px;
+}
+
+.add-btn {
+    background: #0d6efd;
+    color: white;
+}
+
+.remove-btn {
+    background: #dc3545;
+    color: white;
+    width: 100%;
+}
+
+.download-btn {
+    background: #198754;
+    color: white;
+    font-size: 16px;
+    flex: 1; /* For flex layout in submit section */
+}
+
+/* New style for the Preview button */
+.preview-btn {
+    background: #ffc107; /* Standard warning/preview color */
+    color: #333;
+    font-size: 16px;
+    flex: 1; /* For flex layout in submit section */
+}
+
+.submit-section {
+    /* Changed to flex for proper button alignment */
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
