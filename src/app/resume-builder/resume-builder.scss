@@ -102,28 +102,26 @@ input:focus, textarea:focus {
 
 .contact-bar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 20px;
-    background: #1b2a41;  /* exact dark navy */
-    padding: 8px 10px;
+    column-gap: 20px;
+    row-gap: 6px;
+    background: #1b2a41;
+    padding: 8px 28px;
     color: white;
-    font-size: 14px;
-        font-size: 12px;
-    padding-left: 28px;
+    font-size: 13px;
 }
 
 .contact-item {
     display: flex;
     align-items: center;
-    gap: 5px;
-    white-space: nowrap;
+    gap: 4px;
 }
 
 .contact-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2px;
 }
 
 .mar-0{
