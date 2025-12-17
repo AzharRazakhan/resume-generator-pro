@@ -1,0 +1,129 @@
+/* Define SCSS variables for consistency */
+$nav-link-color: #333;
+$play-btn-green: #2ecc71;
+$logo-text-color: #0056b3;
+$web-btn:#00c8aa;
+$btn-sign:#e1e1e1;
+
+header {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+
+    @media (max-width: 960px) {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: $logo-text-color;
+}
+
+.auth-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .language-select {
+        font-size: 14px;
+        color: $nav-link-color;
+        cursor: pointer;
+        font-weight: 600;
+    }
+}
+
+.btn {
+    padding: 8px 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.register-btn {
+    background-color: $btn-sign;
+    border-color: $btn-sign;
+    color: #313b47;;
+}
+
+.signin-btn {
+    background-color: $web-btn;
+    color: white;
+    border-color:$web-btn;
+}
+
+.icon-arrow-down {
+    font-size: 10px;
+    margin-left: 3px;
+    color: #999;
+}
+
+$hero-bg-blue: #30b0e5;
+$play-btn-green: #2ecc71;
+$main-heading-color: #2c3e50;
+$web-btn:#00c8aa;
+
+.logo{
+    width: 3.9rem;
+    height: 1.6rem;
+    cursor: pointer;
+}
+.navbar {
+    --bs-navbar-padding-x: 0;
+    --bs-navbar-padding-y: 0.5rem;
+    --bs-navbar-color: rgba(var(--bs-emphasis-color-rgb),0.65);
+    --bs-navbar-hover-color: rgba(var(--bs-emphasis-color-rgb),0.8);
+    --bs-navbar-disabled-color: rgba(var(--bs-emphasis-color-rgb),0.3);
+    --bs-navbar-active-color: rgba(var(--bs-emphasis-color-rgb),1);
+    --bs-navbar-brand-padding-y: 0.3125rem;
+    --bs-navbar-brand-margin-end: 1rem;
+    --bs-navbar-brand-font-size: 1.25rem;
+    --bs-navbar-brand-color: rgba(var(--bs-emphasis-color-rgb),1);
+    --bs-navbar-brand-hover-color: rgba(var(--bs-emphasis-color-rgb),1);
+    --bs-navbar-nav-link-padding-x: 0.5rem;
+    --bs-navbar-toggler-padding-y: 0.25rem;
+    --bs-navbar-toggler-padding-x: 0.75rem;
+    --bs-navbar-toggler-font-size: 1.25rem;
+    --bs-navbar-toggler-icon-bg: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba(33, 37, 41, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    --bs-navbar-toggler-border-color: rgba(var(--bs-emphasis-color-rgb),0.15);
+    --bs-navbar-toggler-border-radius: var(--bs-border-radius);
+    --bs-navbar-toggler-focus-width: 0.25rem;
+    --bs-navbar-toggler-transition: box-shadow 0.15s ease-in-out;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
+    position: relative;
+    }
+
+    .align-items-center {
+    align-items: center !important;
+}
+.d-flex {
+    display: flex !important;
+}
+.navbar-brand {
+    color: var(--bs-navbar-brand-color);
+    font-size: var(--bs-navbar-brand-font-size);
+    margin-right: var(--bs-navbar-brand-margin-end);
+    padding-bottom: var(--bs-navbar-brand-padding-y);
+    padding-top: var(--bs-navbar-brand-padding-y);
+    text-decoration: none;
+    white-space: nowrap;
+}

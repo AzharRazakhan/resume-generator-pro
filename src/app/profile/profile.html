@@ -1,0 +1,93 @@
+<div class="resume-form-panel">
+
+    <form [formGroup]="resumeForm">
+
+        <div class="section">
+            <h3>Basic Info</h3>
+            <input formControlName="name" placeholder="Full Name" (blur)="onFormChange()">
+            <input formControlName="title" placeholder="Job Title" (blur)="onFormChange()">
+            <textarea formControlName="summary" placeholder="Summary" (blur)="onFormChange()"></textarea>
+        </div>
+
+        <div class="section">
+            <h3>Contact Info</h3>
+            <input formControlName="email" placeholder="Email" (blur)="onFormChange()">
+            <input formControlName="phone" placeholder="Phone" (blur)="onFormChange()">
+            <input formControlName="location" placeholder="Location" (blur)="onFormChange()">
+            <input formControlName="linkedin" placeholder="LinkedIn" (blur)="onFormChange()">
+        </div>
+        <div class="section">
+            <h3>Experience</h3>
+            <button class="add-btn" type="button" (click)="addExperience()">+ Add Experience</button>
+            <div *ngFor="let exp of experience.controls; let i = index" [formGroup]="exp" class="exp-preview">
+                <input formControlName="role" placeholder="Role" (blur)="onFormChange()">
+                <input formControlName="company" placeholder="Company" (blur)="onFormChange()">
+                <input formControlName="duration" placeholder="Duration" (blur)="onFormChange()">
+                <div *ngFor="let p of getPoints(exp).controls; let j = index">
+                    <input [formControl]="p" placeholder="Point {{ j + 1 }}">
+                    <button type="button" class="remove-btn" (click)="removePoint(i, j)">-</button>
+                </div>
+                <button type="button" class="add-btn" (click)="addPoint(i)">+ Add Point</button>
+                <button type="button" class="remove-btn" (click)="removeExperience(i)">🗑Experience Remove</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Projects</h3>
+            <button class="add-btn" type="button" (click)="addProject()">+ Add Project</button>
+            <div *ngFor="let p of projects.controls; let i = index" [formGroup]="p" class="dynamic-card">
+                <input formControlName="name" placeholder="Project Name">
+                <input formControlName="link" placeholder="Project Link">
+                <textarea formControlName="desc" placeholder="Description"></textarea>
+                <button class="remove-btn" type="button" (click)="removeProject(i)">Remove</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Education</h2>
+            <button type="button" class="add-btn" (click)="addEducation()">+ Add Education</button>
+            <div *ngFor="let edu of education.controls; let i = index" [formGroup]="edu">
+                <ng-container *ngIf="edu instanceof FormGroup">
+                    <input formControlName="course" placeholder="Course">
+                    <input formControlName="university" placeholder="University">
+                    <input formControlName="year" placeholder="Year">
+                    <input formControlName="score" placeholder="CGPA or %" title="Enter CGPA or Percentage">
+                    <button type="button" class="remove-btn" (click)="removeEducation(i)">Remove</button>
+                </ng-container>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Certificates</h3>
+            <button type="button" class="add-btn" (click)="addCertificate()">+ Add Certificate</button>
+            <div *ngFor="let cert of certificates.controls; let i = index" [formGroup]="cert">
+                <input formControlName="name" placeholder="Certificate Name">
+                <input formControlName="issuedBy" placeholder="Issued By">
+                <input formControlName="year" placeholder="Year">
+                <button type="button" class="remove-btn" (click)="removeCertificate(i)">Remove</button>
+            </div>
+        </div>
+        <div class="section">
+            <h3>Skills</h3>
+            <button class="add-btn" type="button" (click)="addSkillCategory()">
+                + Add Skill Category
+            </button>
+            <div *ngFor="let sk of skills.controls; let i = index" [formGroup]="sk" class="dynamic-card">
+                <input formControlName="title" placeholder="Category Title (e.g., Frontend)" />
+                <button type="button" class="remove-btn" (click)="removeSkillCategory(i)">
+                    Remove Category
+                </button>
+
+            </div>
+        </div>
+
+        <div class="submit-section">
+            <button class="download-btn" type="button" (click)="goToMyProfile()">Preview PDF</button>
+        </div>
+
+        <!-- <div class="submit-section">
+            <button class="download-btn" type="button" (click)="generatePDF()">Download PDF</button>
+        </div> -->
+
+    </form>
+</div>

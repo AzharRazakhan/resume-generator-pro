@@ -1,0 +1,18 @@
+<header>
+    <div class="header-container">
+        <div class="logo" (click)="goToHome()">
+            <img src="nlog.png" alt="Owl illustration" class="logo" />
+            <a class="d-flex align-items-center navbar-brand" href="/" data-discover="true"><span
+                    class="logo-gradient">Shiwansh</span><span class="text-dark ms-2">Solutions</span></a>
+        </div>
+        <div class="auth-group">
+            <button class="btn signin-btn" [routerLink]="'/myprofile'">Resume</button>
+            <button *ngIf="!isLogin" class="btn register-btn" [routerLink]="'/signup'">Sign up</button>
+            <button *ngIf="!isLogin" class="btn signin-btn" [routerLink]="'/login'">Login</button>
+            <button *ngIf="isLogin" class="btn signin-btn" (click)="logout()">
+                Logout
+            </button>
+            <button *ngIf="isLogin" class="btn signin-btn">{{userName.charAt(0)}}</button>
+        </div>
+    </div>
+</header>

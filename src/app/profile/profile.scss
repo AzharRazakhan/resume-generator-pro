@@ -55,7 +55,7 @@ p{
 
 /* FORM ELEMENTS */
 input, textarea {
-    width: 80%;
+    width: 95%;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 6px;
@@ -93,8 +93,7 @@ input:focus, textarea:focus {
 
 /* RIGHT PREVIEW */
 .resume-preview-content { padding: 30px 0 1px 20px; }
-.left {width: 45%;}
-.right { width: 55%;}
+.left, .right { flex: 1; }
 .row { display: flex; gap: 20px; padding-top: 10px;}
 .card { background: #1f2e40; color: #fff; padding: 10px; border-radius: 6px; margin-bottom: 12px; font-size: 13px; }
 .sub-title { font-size: 16px; margin-top: 3px; color: #444; font-weight: 500; }
@@ -251,20 +250,4 @@ input:focus, textarea:focus {
 
 .phone-link:hover {
     text-decoration: none;
-}
-
-span input {
-    width: 40%;
-}
-
-.top-heading{
-    display: flex;
-    justify-content: space-between;
-}
-.mt16{
-    margin-top: -16;;
-}
-
-.ml-30{
-    margin-left: 30px;
 }

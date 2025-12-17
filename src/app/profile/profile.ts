@@ -1,33 +1,32 @@
-import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
+import { Component, DoCheck, OnChanges, OnInit, SimpleChanges, Pipe, OnDestroy } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { resumeData } from '../data/resume-data';
 import { Experience, Project } from '../interface/resume.interface';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-
+import { ProfileService } from '../Service/profile-service';
+import { Api } from '../auth/api';
+import { catchError, debounceTime, of, Subject, Subscription, switchMap } from 'rxjs';
 
 @Component({
-  selector: 'app-resume-builder',
-  standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, FormsModule],
-  templateUrl: './resume-builder.html',
-  styleUrls: ['./resume-builder.scss'],
+  selector: 'app-profile',
+  imports: [ReactiveFormsModule, FormsModule, CommonModule],
+  templateUrl: './profile.html',
+  styleUrl: './profile.scss',
 })
-export class ResumeBuilder implements OnInit {
-  @ViewChild('resumeContent', { static: false }) resumeContent!: ElementRef;
-  resumeData = resumeData;
-  resumeForm!: FormGroup<any>;
+export class Profile implements OnInit, OnDestroy {
+  //resumeData = resumeData;
+  resumeForm!: FormGroup<any>
+  userId: any;
+  resumeId: any;
+  private changes$ = new Subject<any>();
+  private changesSub?: Subscription;
+  constructor(private fb: FormBuilder,
+    private router: Router,
+    private profileServ: ProfileService,
+    private api: Api
+  ) { }
 
-  constructor(private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.resumeForm = this.fb.group({
@@ -48,26 +47,43 @@ export class ResumeBuilder implements OnInit {
       certificates: this.fb.array([]),
       skills: this.fb.array<FormGroup<any>>([]),
     });
-
-
     this.addCertificate();
-    this.loadSkills();
+    this.changesSub = this.changes$
+      .pipe(
+        debounceTime(700),
+        switchMap(value => {
+          console.log(value, '---000---')
+          const payload = this.mapFormToPayload(value);
+
+          if (this.resumeId) {
+            console.log(this.resumeId, 'resu---')
+            return this.profileServ.updateResume(this.resumeId, payload)
+              .pipe(catchError(err => { console.error(err); return of(null); }));
+          } else {
+            payload.userId = this.userId;
+            return this.profileServ.addResume(payload)
+              .pipe(catchError(err => { console.error(err); return of(null); }));
+          }
+        })
+      )
+      .subscribe(res => {
+        if (res && !this.resumeId && res.id) {
+          this.resumeId = res.id;  // auto-set after create
+          console.log("Resume created, ID =", this.resumeId);
+        }
+      });
 
 
-    // Load Data
-    this.setResumeData();
+    this.loadResume();
   }
   // ======= Education Methods =======
   get education(): FormArray<FormGroup> {
     return this.resumeForm.get('education') as FormArray<FormGroup>;
   }
-  loadSkills() {
-    const skills: any = this.resumeData.skills;
-
+  loadSkills(data: any) {
+    const skills: any = data.skills;
     Object.keys(skills).forEach((key: string) => {
       const items = skills[key].split(",").map((s: any) => s.trim());
-
-      // Merge title + list into one string
       const fullTitle =
         key.charAt(0).toUpperCase() + key.slice(1) + ": " + items.join(", ");
 
@@ -78,6 +94,89 @@ export class ResumeBuilder implements OnInit {
       this.skills.push(group);
     });
   }
+
+
+  loadResume() {
+    this.userId = this.api.getUser()?.userId;
+
+    this.profileServ.getResumeById(this.userId).subscribe({
+      next: (res: any) => {
+        console.log(res, 'res---')
+        this.resumeId = res.id;
+
+        // Patch form with API data
+        this.setResumeData(res);
+
+        console.log("Resume loaded, ID =", this.resumeId);
+      },
+      error: (err) => {
+        if (err.status === 404) {
+          const payload = this.mapFormToPayload(this.resumeForm.value);
+          payload.userId = this.userId;
+
+          this.profileServ.addResume(payload).subscribe(created => {
+            this.resumeId = created.id;
+            console.log("Created new resume, ID =", this.resumeId);
+          });
+        } else {
+          console.error(err);
+        }
+      }
+    });
+  }
+  private mapFormToPayload(value: any) {
+    const normalize = (v: any) =>
+      Array.isArray(v) ? v.join(', ') : (v || '');
+
+    return {
+      id: this.resumeId ?? 0,
+      userId: this.userId,
+
+      name: value.name,
+      title: value.title,
+      summary: value.summary,
+
+      contact: {
+        email: value.email,
+        phone: value.phone,
+        location: value.location,
+        linkedin: value.linkedin
+      },
+
+      skills: {
+        frontend: normalize(value.frontendSkills),
+        backend: normalize(value.backendSkills),
+        database: normalize(value.databaseSkills),
+        tools: normalize(value.tools)
+      },
+
+      experience: value.experience.map((e: any) => ({
+        role: e.role,
+        company: e.company,
+        duration: e.duration,
+        points: e.points
+      })),
+
+      projects: value.projects.map((p: any) => ({
+        name: p.name,
+        link: p.link,
+        desc: p.desc
+      })),
+
+      certificates: value.certificates,
+
+      education: value.education.map((e: any) => ({
+        course: e.course,
+        university: e.university,
+        year: e.year,
+        cgpa: e.score
+      }))
+    };
+  }
+
+
+
+
 
   get contactCount(): number {
     let count = 0;
@@ -104,8 +203,6 @@ export class ResumeBuilder implements OnInit {
     });
     this.education.push(group);
   }
-
-
 
   // Remove Education
   removeEducation(index: number) {
@@ -146,8 +243,6 @@ export class ResumeBuilder implements OnInit {
   }
 
 
-
-
   addSkillCategory() {
     const group = this.fb.group({
       title: this.fb.control('', { nonNullable: true }),
@@ -162,9 +257,10 @@ export class ResumeBuilder implements OnInit {
 
 
 
-  formatLinkedIn(url: string) {
-    if (!url) return '';
-    return url.startsWith('http') ? url : `https://${url}`;
+  formatLinkedIn(link: string) {
+    if (!link) return '';
+    if (link.startsWith('http')) return link;
+    return 'https://' + link;   // Auto-add https:// if missing
   }
 
 
@@ -205,82 +301,6 @@ export class ResumeBuilder implements OnInit {
     this.certificates.removeAt(index);
   }
 
-  /* generatePDF() {
-    const element = this.resumeContent.nativeElement;
-
-    const options = {
-      scale: 4,
-      useCORS: true,
-      backgroundColor: "#ffffff"
-    };
-
-    html2canvas(element, options).then(canvas => {
-      const imgData = canvas.toDataURL("image/png", 1.0);
-
-      const pdf = new jsPDF("p", "pt", "a4");
-
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * pageWidth) / canvas.width;
-
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      // FIRST PAGE
-      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight, undefined, "FAST");
-      heightLeft -= pageHeight;
-      console.log(heightLeft, pageHeight)
-
-      // REMAINING PAGES
-      while (heightLeft > 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight, undefined, "FAST");
-        heightLeft -= pageHeight;
-      }
-
-      //pdf.save(`${this.resumeData.name}_FSD`);
-    });
-  } */
-
-  generatePDF() {
-    const element = this.resumeContent.nativeElement;
-
-    const options = {
-      scale: 2,          // Reduce scale (3 → 2) = big size reduction
-      useCORS: true,
-      backgroundColor: "#ffffff"
-    };
-
-    html2canvas(element, options).then(canvas => {
-      // Use JPEG instead of PNG + reduce quality
-      const imgData = canvas.toDataURL("image/jpeg", 0.6); // <= Best size-quality balance
-
-      const pdf = new jsPDF("p", "pt", "a4");
-
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-      let finalHeight = imgHeight;
-
-      // Fit to 1 page
-      if (imgHeight > pageHeight) {
-        const scaleFactor = pageHeight / imgHeight;
-        finalHeight = imgHeight * scaleFactor;
-      }
-
-      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, finalHeight);
-
-      pdf.save(`${this.resumeData.name}_FSD.pdf`);
-    });
-  }
-
-
   openLinkedIn() {
     let url = this.resumeForm.value.linkedin;
 
@@ -288,32 +308,32 @@ export class ResumeBuilder implements OnInit {
     if (url && !url.startsWith('http')) {
       url = 'https://' + url;
     }
-
     window.open(url, "_blank");
   }
 
-  setResumeData() {
+
+  setResumeData(data: any) {
     this.resumeForm.patchValue({
-      name: this.resumeData.name,
-      title: this.resumeData.title,
-      summary: this.resumeData.summary,
+      name: data.name,
+      title: data.title,
+      summary: data.summary,
 
-      email: this.resumeData.contact.email,
-      phone: this.resumeData.contact.phone,
-      location: this.resumeData.contact.location,
-      linkedin: this.resumeData.contact.linkedin,
+      email: data.contact.email,
+      phone: data.contact.phone,
+      location: data.contact.location,
+      linkedin: data.contact.linkedin,
 
-      frontendSkills: this.resumeData.skills.frontend,
-      backendSkills: this.resumeData.skills.backend,
-      databaseSkills: this.resumeData.skills.database,
-      tools: this.resumeData.skills.tools
+      frontendSkills: data.skills.frontend,
+      backendSkills: data.skills.backend,
+      databaseSkills: data.skills.database,
+      tools: data.skills.tools
     });
 
     // Populate Experience
-    this.resumeData.experience.forEach(exp => this.addExperience(exp));
+    data.experience.forEach((exp: any) => this.addExperience(exp));
 
     // Projects
-    this.resumeData.projects.forEach(p => {
+    data.projects.forEach((p: any) => {
       const group = this.fb.group<Project>({
         name: this.fb.control(p.name, { nonNullable: true }),
         link: this.fb.control(p.link ?? '', { nonNullable: true }),
@@ -323,7 +343,7 @@ export class ResumeBuilder implements OnInit {
     });
     this.certificates.clear();
 
-    this.resumeData.certificates.forEach((t) => {
+    data.certificates.forEach((t: any) => {
       const group = this.fb.group<any>({
         name: this.fb.control(t.name, { nonNullable: true }),
         issuedBy: this.fb.control(t.issuedBy ?? '', { nonNullable: true }),
@@ -331,9 +351,7 @@ export class ResumeBuilder implements OnInit {
       });
       this.certificates.push(group);
     })
-
-
-    this.resumeData.education.forEach(s => {
+    data.education.forEach((s: any) => {
       const group = this.fb.group<any>({
         course: this.fb.control(s.course, { nonNullable: true }),
         university: this.fb.control(s.university ?? '', { nonNullable: true }),
@@ -345,7 +363,38 @@ export class ResumeBuilder implements OnInit {
     })
   }
 
-  goToResumeForms() {
-    this.router.navigate(['/pro'])
+  goToMyProfile() {
+    this.router.navigate(['myprofile'])
   }
+
+
+  addResumeOrUpdateResume(resumeId: any, value: any) {
+    this.profileServ.updateResume(resumeId, value).subscribe((res) => {
+      console.log("Updated Successfully:", res);
+    });
+  }
+  onFormChange() {
+    if (!this.resumeId) {
+      // CREATE FIRST
+      this.profileServ.addResume(this.resumeForm.value)
+        .subscribe((res: any) => {
+          this.resumeId = res.id;
+        });
+    } else {
+      // UPDATE
+      this.profileServ.updateResume(this.resumeId, this.resumeForm.value)
+        .subscribe();
+    }
+  }
+
+
+
+
+
+  ngOnDestroy() {
+    this.changesSub?.unsubscribe();
+  }
+
+
+
 }

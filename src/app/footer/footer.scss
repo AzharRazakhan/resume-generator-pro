@@ -1,0 +1,128 @@
+/* Footer Variables */
+:root {
+    --footer-bg: #2c3e50; /* Dark, professional background */
+    --footer-text-color: #bdc3c7; /* Light gray text */
+    --footer-heading-color: #ecf0f1; /* White/light headings */
+    --social-icon-bg: #4CAF50; /* Green highlight from the Register button */
+}
+
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text-color);
+    padding-top: 50px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 40px;
+    display: flex;
+    flex-wrap: wrap; /* Allows columns to wrap on smaller screens */
+    justify-content: space-between;
+    gap: 30px; /* Space between columns */
+}
+
+.footer-col {
+    flex: 1 1 200px; /* Base size 200px, allows shrinking/growing */
+    min-width: 150px; /* Ensures columns don't get too narrow */
+}
+
+/* Headings */
+.footer-col h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--footer-heading-color);
+    margin-bottom: 20px;
+}
+
+/* Link Lists */
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col ul li {
+    margin-bottom: 10px;
+}
+
+.footer-col ul li a {
+    color: var(--footer-text-color);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+}
+
+.footer-col ul li a:hover {
+    color: var(--social-icon-bg); /* Highlight on hover */
+}
+
+/* Company Info / Logo Column Specifics */
+.company-info .logo {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--footer-heading-color);
+    margin-bottom: 15px;
+}
+
+.company-info p {
+    font-size: 14px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+/* Social Icons */
+.social-links a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--footer-text-color);
+    color: var(--footer-bg);
+    font-size: 14px;
+    font-weight: 700;
+    margin-right: 10px;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.social-links a:hover {
+    background-color: var(--social-icon-bg);
+    color: white;
+}
+
+/* Footer Bottom Bar */
+.footer-bottom {
+    border-top: 1px solid #444;
+    text-align: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.footer-bottom p {
+    font-size: 13px;
+    color: #95a5a6;
+}
+
+/* Responsive adjustment for small screens */
+@media (max-width: 768px) {
+    .footer-container {
+        justify-content: flex-start;
+    }
+    .footer-col {
+        flex: 1 1 45%; /* Two columns on medium screens */
+    }
+    .company-info {
+        flex: 1 1 100%; /* Full width for the main info block */
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-col {
+        flex: 1 1 100%; /* Stack all columns vertically on mobile */
+    }
+}

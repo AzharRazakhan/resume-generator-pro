@@ -1,0 +1,50 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Sign Up</h2>
+
+        <form (ngSubmit)="onSubmit(authForm)" #authForm="ngForm">
+
+            <!-- Fullname -->
+            <div class="form-group">
+                <input type="text" ngModel name="fullName" placeholder="fullName" required minlength="3"
+                    #fullName="ngModel" />
+                <small class="error" *ngIf="fullName.invalid && fullName.touched">
+                    {{ fullName.errors?.['required'] ? 'FullName is required' : '' }}
+                    {{ fullName.errors?.['minlength'] ? 'Minimum 3 characters' : '' }}
+                </small>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <input type="email" ngModel name="email" placeholder="Email" required #email="ngModel" />
+                <small class="error" *ngIf="email.invalid && email.touched">
+                    {{ email.errors?.['required'] ? 'Email is required' : '' }}
+                    {{ email.errors?.['email'] ? 'Enter a valid email address' : '' }}
+                </small>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <input type="password" ngModel name="password" placeholder="Password" required minlength="6"
+                    #password="ngModel" />
+                <small class="error" *ngIf="password.invalid && password.touched">
+                    {{ password.errors?.['required'] ? 'Password is required' : '' }}
+                    {{ password.errors?.['minlength'] ? 'Minimum 6 characters' : '' }}
+                </small>
+            </div>
+
+
+
+            <!-- Submit button -->
+            <button type="submit" class="btn-primary" [disabled]="authForm.invalid">
+                Sign Up
+            </button>
+        </form>
+
+        <!-- Toggle link -->
+        <p class="toggle-text">
+            Already have an account?
+            <a (click)="goToLogin()">Login</a>
+        </p>
+    </div>
+</div>

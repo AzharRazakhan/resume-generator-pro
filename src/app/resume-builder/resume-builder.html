@@ -2,8 +2,15 @@
 
     <!-- LEFT SIDE FORM -->
     <div class="resume-form-panel">
-        <h2>Resume Builder</h2>
+        <span class="top-heading">
 
+            <!-- <h2>Resume Builder</h2>-->
+            <div class="submit-section">
+                <button class="download-btn mt16" type="button" (click)="generatePDF()">Download PDF</button>
+                <button class="download-btn mt16" type="button" (click)="goToResumeForms()">Profile </button>
+
+            </div>
+        </span>
         <form [formGroup]="resumeForm">
 
             <div class="section">
@@ -54,8 +61,11 @@
                     <ng-container *ngIf="edu instanceof FormGroup">
                         <input formControlName="course" placeholder="Course">
                         <input formControlName="university" placeholder="University">
-                        <input formControlName="year" placeholder="Year">
-                        <input formControlName="score" placeholder="CGPA or %" title="Enter CGPA or Percentage">
+                        <span style="display: flex;">
+                            <input formControlName="year" placeholder="Year">
+                            <input formControlName="score" placeholder="CGPA or %" title="Enter CGPA or Percentage">
+
+                        </span>
                         <button type="button" class="remove-btn" (click)="removeEducation(i)">Remove</button>
                     </ng-container>
                 </div>
@@ -66,8 +76,11 @@
                 <button type="button" class="add-btn" (click)="addCertificate()">+ Add Certificate</button>
                 <div *ngFor="let cert of certificates.controls; let i = index" [formGroup]="cert">
                     <input formControlName="name" placeholder="Certificate Name">
-                    <input formControlName="issuedBy" placeholder="Issued By">
-                    <input formControlName="year" placeholder="Year">
+                    <span>
+                        <input formControlName="issuedBy" placeholder="Issued By">
+                        <input formControlName="year" placeholder="Year">
+                    </span>
+                    <br>
                     <button type="button" class="remove-btn" (click)="removeCertificate(i)">Remove</button>
 
                 </div>
@@ -81,19 +94,9 @@
                 </button>
 
                 <div *ngFor="let sk of skills.controls; let i = index" [formGroup]="sk" class="dynamic-card">
-
                     <input formControlName="title" placeholder="Category Title (e.g., Frontend)" />
-
-                    <div *ngFor="let item of getSkillItems(sk).controls; let j = index">
-                        <input [formControl]="item" placeholder="Skill {{ j + 1 }}" />
-
-                        <button type="button" class="remove-btn" (click)="removeSkillItem(i, j)">Remove</button>
-                    </div>
-
-                    <button type="button" class="add-btn" (click)="addSkillItem(i)">+ Add Skill Item</button>
-
                     <button type="button" class="remove-btn" (click)="removeSkillCategory(i)">
-                        Remove Category
+                        -
                     </button>
 
                 </div>
@@ -117,9 +120,12 @@
 
                 <p class="mar-t9 fs-12">{{ resumeForm.value.summary }}</p>
             </div>
-
-            <div class="contact-bar">
-
+            <div class="contact-bar" [ngClass]="{
+    'one-item' : contactCount === 1,
+    'two-items': contactCount === 2,
+    'three-items': contactCount === 3,
+    'four-items': contactCount === 4
+}">
                 <div class="contact-item" *ngIf="resumeForm.value.email?.trim()">
                     <span class="contact-icon">
                         <svg width="16" height="16" fill="white" viewBox="0 0 16 16">
@@ -138,7 +144,9 @@
                                 d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.91.37 1.79.72 2.63a2 2 0 0 1-.45 2.11L8 9.91a16 16 0 0 0 6 6l1.45-1.38a2 2 0 0 1 2.11-.45c.84.35 1.72.6 2.63.72A2 2 0 0 1 22 16.92z" />
                         </svg>
                     </span>
-                    {{ resumeForm.value.phone }}
+                    <a [href]="'tel:' + resumeForm.value.phone" class="phone-link">
+                        {{ resumeForm.value.phone }}
+                    </a>
                 </div>
 
                 <div class="contact-item" *ngIf="resumeForm.value.location?.trim()">
@@ -164,16 +172,15 @@
                     </a>
                 </div>
             </div>
-
-            <div class="row resume-preview-content" style="margin: 0 20px 0 12px;">
+            <div class="row resume-preview-content" style="margin: 25px 20px 0 12px;">
                 <!-- LEFT -->
                 <div class="left">
                     <h2 class="mb-10">WORK EXPERIENCE</h2>
                     <div *ngFor="let exp of experience.controls; let i = index" class="exp-preview mb-25">
                         <b>{{ exp.value.role }}</b><br>
                         <span class="fs13">
-                            {{ exp.value.company }}
-                            {{ exp.value.duration }}
+                            <span>{{ exp.value.company }}</span>
+                            <span class="ml-30">{{ exp.value.duration }}</span>
                         </span>
                         <ul class="points-list">
                             <li *ngFor="let p of getPoints(exp).controls">{{ p.value }}</li>
@@ -181,7 +188,7 @@
                     </div>
 
                     <h2 class="mb-10">EDUCATION</h2>
-                    <div *ngFor="let edu of resumeForm.value.education">
+                    <div *ngFor="let edu of resumeForm.value.education" class="mb-10">
                         <b>{{ edu.course }}</b><br>
                         <span class="fs13">
                             {{ edu.university }} – {{ edu.year }} | {{edu.score ? ( edu.score) : '' }}
@@ -195,8 +202,8 @@
                 <div class="right">
                     <h2 class="mb-10">SKILLS</h2>
                     <div *ngFor="let sk of skills.controls" class="card">
-                        {{ sk.value.title ? sk.value.title + ':' : ''}}
-                        {{ getSkillLine(sk) }}
+                        {{ sk.value.title}}
+                        <!-- {{ getSkillLine(sk) }} -->
                     </div>
 
                     <div class="project-section-wrapper">
@@ -217,13 +224,11 @@
 
                         <div *ngFor="let cert of resumeForm.value.certificates" class="mb-10">
                             <b>{{ cert.name }}</b><br>
-                            {{ cert.issuedBy }} – {{ cert.year }}
+                            <span class="fs13">{{ cert.issuedBy }} – {{ cert.year }}</span>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-
 </div>

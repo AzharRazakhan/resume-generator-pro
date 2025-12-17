@@ -1,0 +1,235 @@
+/* Define SCSS variables for consistency */
+$nav-link-color: #333;
+$play-btn-green: #2ecc71;
+$logo-text-color: #0056b3;
+$web-btn:#00c8aa;
+$btn-sign:#e1e1e1;
+
+header {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+
+    @media (max-width: 960px) {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: $logo-text-color;
+}
+
+.main-nav {
+    @media (max-width: 960px) {
+        order: 3;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    ul {
+        list-style: none;
+        display: flex;
+        gap: 25px;
+
+        @media (max-width: 960px) {
+            justify-content: center;
+            gap: 15px;
+        }
+
+        li a {
+            text-decoration: none;
+            color: $nav-link-color;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 5px 0;
+        }
+    }
+}
+
+.auth-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .language-select {
+        font-size: 14px;
+        color: $nav-link-color;
+        cursor: pointer;
+        font-weight: 600;
+    }
+}
+
+.btn {
+    padding: 8px 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.register-btn {
+    background-color: $btn-sign;
+    border-color: $btn-sign;
+    color: #313b47;;
+}
+
+.signin-btn {
+    background-color: $web-btn;
+    color: white;
+    border-color:$web-btn;
+}
+
+.icon-arrow-down {
+    font-size: 10px;
+    margin-left: 3px;
+    color: #999;
+}
+
+$hero-bg-blue: #30b0e5;
+$play-btn-green: #2ecc71;
+$main-heading-color: #2c3e50;
+$web-btn:#00c8aa;
+
+.hero-section {
+    padding: 60px 20px 40px;
+}
+
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+
+    @media (max-width: 900px) {
+        flex-direction: column;
+        gap: 30px;
+    }
+}
+
+.hero-illustration, .hero-text {
+    flex: 1;
+    max-width: 50%;
+
+    @media (max-width: 900px) {
+        max-width: 100%;
+        text-align: center;
+    }
+}
+
+.illustration-box {
+    border-radius: 15px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.owl-placeholder {
+    position: absolute;
+    top: -50px;
+    font-size: 80px;
+    line-height: 1;
+    z-index: 2;
+}
+
+.laptop-placeholder {
+    font-size: 50px;
+    margin-top: 40px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: white;
+}
+
+.video-bar-placeholder {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 3;
+}
+
+.hero-text {
+    text-align: left;
+    @media (max-width: 900px) {
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 38px;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 20px;
+        color: $main-heading-color;
+    }
+}
+
+.ps-text {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.play-video-btn {
+    background-color: $play-btn-green;
+    color: white;
+    font-size: 16px;
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.icon-play {
+    margin-right: 5px;
+}
+
+$light-gray-bg: #f7f7f7;
+
+.templates-cta {
+    background-color: $light-gray-bg;
+    padding: 40px 20px;
+    text-align: center;
+    margin-top: 40px;
+    border-top: 1px solid #eee;
+
+    h2 {
+        font-size: 24px;
+        font-weight: 600;
+        color: #333;
+    }
+}
+
+.owl-img{
+    height: 100%;
+    width: 100;
+}
+
+
+.web-color{
+    background-color:#00c8aa
+}
