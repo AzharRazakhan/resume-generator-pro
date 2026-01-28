@@ -5,44 +5,41 @@ export const resumeData = {
     contact: {
         email: "azharrazakhan78611@gmail.com",
         phone: "+91 9826108734",
-        location: "Chandigarh, India",
+        location: "Indore, India",
         linkedin: "linkedin.com/in/azhar-khan-aa13aa187"
     },
 
     experience: [
-        /* {
-            role: "Software Developer",
-            company: "Shiwansh Solutions",
-            duration: "Apr 2025 – Present",
-            points: [
-                "Designed and implemented scalable web modules using Angular 19, React.js, and Node.js, improving UI/UX and maintainability.",
-                "Enhanced performance by reducing load time 30% through lazy loading, OnPush change detection, and component refactoring.",
-                "Developed secure REST APIs with JWT authentication, interceptors, and robust error-handling flows.",
-                "Built 20+ reusable UI components with Angular Material and Bootstrap, reducing development effort by 25%.",
-                "Collaborated with cross-functional teams to resolve bugs, improve UX flows, and ensure timely sprint deliveries in Agile setup."
-            ]
-        }, */
         {
             role: "Software Developer",
             company: "Thoughtwin IT Solution",
             duration: "Jan 2023 – Apr 2025",
             points: [
                 "Delivered 10+ scalable modules using Angular 19 and Node.js, enhancing maintainability, performance, and user experience across multiple applications.",
-                "Reduced API response time by 25% through optimized backend logic, caching strategies, and query optimization.",
                 "Built a reusable custom design system with Angular Material & Bootstrap, adopted across 3 projects, ensuring UI consistency and faster development cycles.",
                 "Collaborated closely with backend and QA teams to resolve 100+ bugs, streamline sprint deliveries, and improve overall application stability.",
                 "Developed and integrated RESTful APIs with efficient error handling and validation to support scalable front-end features."
             ]
         },
         {
-            role: "Full Stack Developer",
-            company: "Shiwansh Solutions",
-            duration: "June 2021 - Dec 2022",
+            role: "Software Engineer",
+            company: "CDN Solutions Group",
+            duration: "May 2022 - Nov 2022",
             points: [
                 "Built reusable and scalable UI components in Angular 12, reducing development time for new modules and improving UI consistency across projects.",
                 "Collaborated with backend developers to integrate RESTful APIs, ensuring smooth data flow, proper error handling, and optimized request/response cycles.",
                 "Mentored junior developers on Angular best practices, component architecture, and debugging techniques, significantly boosting team productivity and code quality.",
-                "Optimized front-end performance using lazy loading, code splitting, and bundle size reduction, resulting in noticeably faster page load and rendering times."
+            ]
+        },
+
+        {
+            role: "MEAN Stack Developer",
+            company: "Samosys Technology",
+            duration: "June 2021 - Dec 2022",
+            points: [
+                "Designed frontend in Angular and backend APIs using Node.js.",
+                "Worked within Agile teams to deliver product features efficiently.",
+                "Optimized front-end performance using lazy loading, code splitting, and bundle size reduction"
             ]
         }
     ],

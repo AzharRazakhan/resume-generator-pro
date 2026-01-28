@@ -6,6 +6,7 @@
                     class="logo-gradient">My</span><span class="text-dark ms-2">Resume</span></a>
         </div>
         <div class="auth-group">
+            <button class="btn signin-btn" [routerLink]="'/resume'">Resume-page</button>
             <button class="btn signin-btn" [routerLink]="'/myprofile'">Resume</button>
             <button *ngIf="!isLogin" class="btn register-btn" [routerLink]="'/signup'">Sign up</button>
             <button *ngIf="!isLogin" class="btn signin-btn" [routerLink]="'/login'">Login</button>
